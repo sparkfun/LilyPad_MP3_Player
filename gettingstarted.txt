@@ -1,0 +1,176 @@
+SparkFun Electronics
+LilyPad MP3 Player
+Getting started guide (DRAFT)
+
+The LilyPad MP3 Player is an amazing little board that contains everything you need to play almost any audio file you wish. You can use it to create MP3-playing hoodies, talking teddy bears, or anything else your imagination can come up with!
+
+Things you'll need
+
+A 5V FTDI BOB or cable
+A single-cell (3.7V) Lipo battery (500mAh or above recommended)
+Two 4 or 8-Ohm Speakers, or headphones with a 1/8" stereo jack
+Conductive thread and sewing supplies, or hook-up wire and soldering tools
+
+Getting started with the default sketch ("Trigger")
+
+The default sketch will wait for one of the five trigger inputs to be grounded, and play the corresponding audio file from the micro-SD card.
+
+1. Put up to five audio files onto a micro-SD card. The board will play a number of audio formats including MP3, WAV, AAC, MID, etc.
+
+2. Rename the files so that the first character of each filename is the number "1" to "5", corresponding to the trigger that you want to play that file. You don't need to change anything else about the filename; just make sure it has one of the standard file extensions for audio types (MP3, WAV, AAC, MID, etc.).
+
+3. Turn off the LilyPad MP3 Player and plug your micro-SD card into the socket. Push it in until it clicks; if you release it, it will stay seated. To remove it, push again until it clicks, and it will pop out when you release it.
+
+4. Connect a headphone to the headphone jack*, or connect speakers to the left and right speaker terminals. (Note that when anything is plugged into the headphone jack, the speaker terminals are disabled. This behavior can be changed if desired).
+
+5. Plug a 3.7V single-cell Lipo battery into the JST connector. Note that a FTDI USB connection will not provide enough power to run the board**, so a battery or other external power source is required.
+
+6. Move the power switch to ON. The red LED should light up.
+
+7. Now, momentarily connect the ground sew tap (marked GND) to one of the trigger terminals (marked T1 through T5). The audio file associated with that terminal should play through the speakers / headphone. If you don't hear anything, see the troubleshooting section below.
+
+8. To charge the battery or reprogram the board, connect a 5 volt FTDI board to the FTDI header. The yellow LED will light up while the battery is charging, and go out when it's full. To reprogram the board, make sure it's turned on.
+
+9. Have fun!
+
+Getting started with the "Player" sketch
+
+The "Player" sketch is not preprogrammed onto the LilyPad MP3 Player, but you can easily install it using the free Arduino IDE. It is included with the LilyPad MP3 software which you can download from the product page at SparkFun.com.
+
+The Player sketch turns the LilyPad MP3 Player into a full audio player, allowing you to easily switch between tracks and change the volume. The user interface is a rotary encoder (a knob with a built-in pushbutton) available from SparkFun.com that you'll solder onto the LilyPad MP3 Player board.
+
+Things you'll need to run the Player sketch:
+
+RGB Rotary Encoder (SparkFun part no. COM-10982)
+(Optional) Clear Plastic Knob (SparkFun part no. COM-10597)
+Soldering tools
+
+1. Insert the Rotary Encoder's pins into the holes in the center of the LilyPad MP3 Player. Note that it goes into the "top" side of the board (the side with the white outline).
+
+2. Flip the board over, and solder the encoder's pins to the board. (Don't know how to solder? It's easy, see the tutorials at SparkFun.com).
+
+3. If you haven't, install the free Arduino IDE available from www.arduino.cc, and install the LilyPad MP3 Player software available from SparkFun.com. Note that several new libraries will need to be copied to your "libraries" folder.
+
+4. Connect a 5V FTDI board or cable to the LilyPad MP3 Player, turn on the power switch on the board, and use the Arduino IDE to upload the "Player" sketch to the board.
+
+5. Place the audio files of your choice on a micro-SD card. The LilyPad MP3 Player understands a wide variety of audio types; just make sure your files have one of the standard file extensions (MP3, WAV, AAC, MID, etc.).
+
+6. Turn off the LilyPad MP3 Player, and plug your micro-SD card into socket. Push it in until it clicks; if you release it, it will stay seated. To remove it, push again until it clicks, and it will pop out when you release it.
+
+7. Connect a headphone to the headphone jack*, or connect speakers to the left and right speaker terminals. (Note that when anything is plugged into the headphone jack, the speaker terminals are disabled. This behavior can be changed if desired).
+
+8. Plug a 3.7V single-cell Lipo battery into the JST connector. Note that a FTDI USB connection will not provide enough power to run the board**, so a battery or other external power source is required.
+
+9. Move the power switch to ON. The red LED should light up, and after a few seconds, the rotary encoder will turn red, indicating the player is in "track" mode. (If the rotary encoder blinks, there was a startup problem, see the troubleshooting tips below.)
+
+10. Play music! Here's how:
+
+At any time, to start and stop playback, briefly press the rotary encoder button. When a track has finished playing, the next track will automatically start.
+
+To switch between "track" and "volume" modes, hold the rotary encoder button down until the color changes (one second). Red = track mode, green = volume mode.
+
+In track mode, you can turn the knob forwards or backwards to change tracks (one track per "click" of the knob). If you're currently playing, turning the knob will stop the current track and switch to the next / previous one. If you're not playing, the player will silently keep track of how many clicks you've made.
+
+In volume mode, you can turn the knob forwards or backwards to change the volume.
+
+11. To charge the battery or reprogram the board, connect a 5 volt FTDI board to the FTDI header. The yellow LED will light up while the battery is charging, and go out when it's full. To reprogram the board, make sure it's turned on.
+
+12. Have fun!
+
+Notes
+
+* The LilyPad MP3 Player's headphone jack is safe for headphones, but don't connect it to an external amplifier unless you're using a battery to power the LilyPad. (The fine print is that if the audio ground is shorted to the power ground, the audio decoder chip will be damaged).
+
+** The FTDI port is provided to charge an attached Lipo battery and provide a way to reprogram the board. It will power the board if no audio is playing, but will not provide enough power to drive the speakers. In general, the best way to power the LilyPad MP3 Player is with a Lipo battery. If you'd like to use an external 3.5V - 6V supply, you can do so through the battery connector.
+
+More about the connections
+
+Triggers
+
+In the default Trigger sketch, the five trigger inputs are used to start playing a selected audio file. These inputs are triggered when they are connected to the ground pin (GND), and remain untriggered if they are left "open" or disconnected. You can connect the triggers to ground through “soft switches” to allow your project to play audio clips!
+
+Aside from being triggers, all of the trigger pins have alternate uses. When you write your own sketches, you can use these pins to connect to other devices such as accelerometers, displays, etc.
+
+T1	Trigger 1 input. This can also be used as an analog input (A0).
+T2	Trigger 2 input. This can also be used with the Wire (I2C) library as the SDA pin.
+T3	Trigger 3 input. This can also be used with the Wire (I2C) library as the SCL pin.
+T4	Trigger 4 input. This can also be used as a serial TX pin.
+T5	Trigger 5 input. This can also be used as a serial RX pin.
+
+Note that triggers 4 and 5 are shared by the Arduino's serial port, which is used to upload sketches to the board. You can leave soft switches connected to these triggers and upload sketches to the board AS LONG AS the switches stay "untriggered" (not connected to ground) WHILE you're uploading code.
+
+Power
+
+Normally, you'll just connect a 3.7V Lipo battery to the LilyPad MP3 Player, and won't need any of the additional power connections (except the ground pin for your triggers). But if you want to power the board some other way, these pins give you options to do so.
+
+If you already have a regulated 3.3V supply, you can connect it to the 3.3V pin. (This pin will also provide a regulated 3.3V output when the board is operating.) Note that the LilyPad MP3 Player can draw several hundred milliamps when running at full volume.
+
+If you have an unregulated supply in the 3.5V to 6V range, and you want to use it to charge an attached Lipo battery, you can connect it to the VIN pin. If you want to use a 3.5V to 6V source instead of a Lipo battery, connect it to the battery connector or +/- header next to the connector. (This will bypass the charge circuitry). Don't connect a power source to the battery terminals while a battery is connected.
+
+GND	Common ground connection
+VIN	Input to battery charger (also connected to FTDI VCC pin)
+Battery	Input to circuitry (do not connect a battery at the same time) 
+3.3V	Regulated 3.3V input or output
+
+Speakers
+
+The LilyPad MP3 Player includes a stereo class-D audio amplifier for driving speakers. It will drive speakers from 4 to 16 ohms, and the amplifier can output up to 0.75 watts per channel.
+
+We've had good luck with speakers of all sizes, but in general larger speakers will sound better. (TIP: You can often make smaller speakers sound better if you put some sort of enclosed cavity behind them). You can also connect multiple speakers in series or parallel for each channel, as long as the total load is between 4 and 16 ohms.
+
+The speaker outputs are a high-efficiency PWM signal designed only for speakers. Don't connect the speaker outputs to anything besides speakers or other coil-based transducers. Also ensure that you don't connect the speaker outputs together, to each other, or to ground.
+
+If you want to connect the LilyPad MP3 Player to an external amplifier, you can use the headphone jack, but be careful: the audio ground is not the same as the power ground, and if those two are connected the MP3 decoding chip will be damaged. This generally means that the LilyPad MP3 Player and your external amplifier should be running on separate power supplies. If you're running the LilyPad on a Lipo battery, this should be safe. Note that if you're exclusively using the headphone jack, you can disable the amplifier in your sketch to save power.
+
+TIP: Speakers have two terminals, sometimes they're labeled + and -, and sometimes they're not labeled at all. Speakers are non-polarized; they'll work equally well connected in either direction, but if you're using more than one speaker, try to connect both of them the same way. If one is reversed from the other, you may hear strange phasing effects in the audio (which might be what you want after all!).
+
+Battery charging
+
+To charge an attached Lipo battery, plug a 5V FTDI board or cable into the FTDI header. The battery will charge whether the board is on or off, but the battery will charge somewhat faster while the board is off.
+
+The yellow charge LED will light while the battery is charging, and go out when the battery is full. It is normal for the charge LED to light if there is no battery connected.
+
+When an empty battery starts charging, the charger chip will get warm. This is normal. It will run cooler as the battery approaches full charge.
+
+The battery charger is set to a charge rate of 500mA (the maximum provided by a USB port). This means that an empty 500mAh battery will recharge in one hour; a 1000mAh battery will recharge in two hours, etc.
+
+If you wish, you can change the charge rate by changing resistor R1. You may want to do this to avoid charging the battery too quickly if you're using a smaller battery than 500mAh. (SparkFun Lipo batteries do not like to be charged faster than one hour.) To change the charge rate, use a soldering iron to discard the small surface-mount resistor in the box marked R1 near the power switch. Then solder in a through-hole resistor of the proper size. The formula to determine the proper resistance is: R = 1000 / desired current in Amps. For the default current of 500mA (0.5A), a 2000 Ohm resistor is used. If you want to use a 110mAh battery, you'll want a charge rate of 110mA (0.110A), which requires a 9090 Ohm resistor. The closest standard resistor value is 9.1K, but an easier-to-find 10K resistor would give you a charge rate of 100mA, which is safe.
+
+Programming
+
+The LilyPad MP3 Player example sketches require several additional libraries. These libraries are included in the LilyPad MP3 Player archive; before programming the board, drag the libraries from the archive into a "libraries" folder within your Arduino sketch folder.
+
+The LilyPad MP3 Player must be turned ON to program it.
+
+Set your Arduino IDE's Tools/Board setting to "Arduino Pro or Pro Mini (3.3V, 8MHz) w/ ATmega328".
+
+The example code (Trigger and Player) are great starting points for writing your own code. Also see the code in the LilyPad MP3 Player "examples" directory.
+
+Troubleshooting
+
+If the board can't find a properly-formatted SD card, it will blink the red LED in the rotary encoder. (If you don't have a rotary encoder installed, you can stick the leads from a LED into the two end holes in the row of five holes in the rotary encoder footprint.) If this happens, double-check that a micro-SD card is plugged in, and that it's properly formatted (FAT or FAT32).
+
+If the red power LED turns on but you can't get it to play any sounds, double-check that: there are audio files present on the SD card, that the extensions of the files are a playable type (MP3, WAV, etc.), and if you're using the trigger sketch, that the first character in the filename is a number from 1 to 5. Also check that you're making a good connection between GND and the trigger pin (an alligator cable is a good way to check this).
+
+If the player stops in the middle of a song, ensure that you're using a full Lipo battery.
+
+Tips
+
+Note that the board requires a 5V (not a 3.3V) FTDI BOB or cable.
+
+Don't connect the speaker outputs together, to ground, or to anything that isn't a speaker or coil-based transducer.
+
+Use a full battery; if the voltage gets too low the LilyPad MP3 Player may lock up (you can turn it off and on to restart it).
+
+Only insert or eject the SD card when the LilyPad MP3 Player is powered off.
+
+Before washing a garment or project containing the LilyPad MP3 Player, follow these steps:
+
+1.Remove the Lipo battery
+2.Remove the micro-SD card
+3.Wash by hand
+4.Allow to fully air dry (over several days) before powering up again
+
+Have fun!
+
+-Your friends at SparkFun.
