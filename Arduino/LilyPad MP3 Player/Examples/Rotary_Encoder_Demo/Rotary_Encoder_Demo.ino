@@ -8,6 +8,45 @@
 // want to use the rotary encoder in your own sketches, this code
 // will give you a starting point.
 
+// HARDWARE CONNECTIONS
+
+// This sketch will run on a LilyPad MP3 Player board (with
+// a rotary encoder installed) without modifications.
+
+// If you're not using the LilyPad MP3 Player board, connect
+// a rotary encoder to your Arduino using these pins:
+
+// Rotary encoder pin A to digital pin 3*
+// Rotary encoder pin B to analog pin 3
+// Rotary encoder pin C to ground
+
+// This sketch implements software debounce, but you can further
+// improve performance wby placing 0.1uF capacitors between
+// A and ground, and B and ground.
+
+// If you wish to use the RGB LED and button functions of 
+// SparkFun part number COM-10982, use the following connections:
+
+// Rotary encoder pin 1 (red cathode) to digital pin 10
+// Rotary encoder pin 2 (green cathode) to analog pin 1
+// Rotary encoder pin 3 (button) to digital pin 4
+// Rotary encoder pin 4 (blue cathode) to digital pin 5
+// Rotary encoder pin 5 (common anode) to VCC (3.3V or 5V)
+
+// Note that because this is a common anode device,
+// the pushbutton requires an external 1K-10K pullDOWN resistor
+// to operate.
+
+// * Pins marked with an asterisk should not change because
+// they use interrupts on that pin. All other pins can change,
+// see the constants below.
+
+// SERIAL MONITOR
+
+// Run this sketch with the serial monitor window set to 9600 baud.
+
+// HOW IT WORKS
+
 // The I/O pins used by the rotary encoder hardware are set up to 
 // automatically call interrupt functions (rotaryIRQ and buttonIRQ)
 // each time the rotary encoder changes states.
@@ -51,31 +90,32 @@
 
 #include <PinChangeInt.h>
 
-// LilyPad MP3 pin defines:
+// LilyPad MP3 pin defines. Not all of these are used in this
+// sketch; the unused pins are commented out:
 
-#define TRIG1 A0
-#define ROT_LEDG A1
-#define SHDN_GPIO1 A2
-#define ROT_B A3
-#define TRIG2_SDA A4
-#define TRIG3_SCL A5
-#define RIGHT A6
-#define LEFT A7
+//#define TRIG1 A0
+#define ROT_LEDG A1     // green LED
+//#define SHDN_GPIO1 A2
+#define ROT_B A3        // rotary B
+//#define TRIG2_SDA A4
+//#define TRIG3_SCL A5
+//#define RIGHT A6
+//#define LEFT A7
 
-#define TRIG5_RXI 0
-#define TRIG4_TXO 1
-#define MP3_DREQ 2
-#define ROT_A 3
-#define ROT_SW 4
-#define ROT_LEDB 5
-#define MP3_CS 6
-#define MP3_DCS 7
-#define MP3_RST 8
-#define SD_CS 9
-#define ROT_LEDR 10
-#define MOSI 11
-#define MISO 12
-#define SCK 13
+//#define TRIG5_RXI 0
+//#define TRIG4_TXO 1
+//#define MP3_DREQ 2
+#define ROT_A 3          // rotary A
+#define ROT_SW 4         // rotary puhbutton
+#define ROT_LEDB 5       // blue LED
+//#define MP3_CS 6
+//#define MP3_DCS 7
+//#define MP3_RST 8
+//#define SD_CS 9
+#define ROT_LEDR 10      // red LED
+//#define MOSI 11
+//#define MISO 12
+//#define SCK 13
 
 // RGB LED colors (for common anode LED, 0 is on, 1 is off)
 
@@ -99,40 +139,40 @@ volatile unsigned long button_downtime = 0L; // ms the button was pushed before 
 
 void setup() 
 {
-  // Set up all the I/O pins
+  // Set up all the I/O pins. Unused pins are commented out.
 
-  pinMode(TRIG1, INPUT);
-  digitalWrite(TRIG1, HIGH); // turn on weak pullup
-  pinMode(MP3_CS, OUTPUT);
-  pinMode(SHDN_GPIO1, OUTPUT);
+  //  pinMode(TRIG1, INPUT);
+  //  digitalWrite(TRIG1, HIGH); // turn on weak pullup
+  //  pinMode(MP3_CS, OUTPUT);
+  //  pinMode(SHDN_GPIO1, OUTPUT);
   pinMode(ROT_B, INPUT);
   digitalWrite(ROT_B, HIGH); // turn on weak pullup
-  pinMode(TRIG2_SDA, INPUT);
-  digitalWrite(TRIG1, HIGH); // turn on weak pullup
-  pinMode(TRIG3_SCL, INPUT);
-  digitalWrite(TRIG1, HIGH); // turn on weak pullup
-  pinMode(TRIG5_RXI, INPUT);
-  digitalWrite(TRIG5_RXI, HIGH); // turn on weak pullup
-  pinMode(TRIG4_TXO, INPUT);
-  digitalWrite(TRIG4_TXO, HIGH); // turn on weak pullup
+  //  pinMode(TRIG2_SDA, INPUT);
+  //  digitalWrite(TRIG1, HIGH); // turn on weak pullup
+  //  pinMode(TRIG3_SCL, INPUT);
+  //  digitalWrite(TRIG1, HIGH); // turn on weak pullup
+  //  pinMode(TRIG5_RXI, INPUT);
+  //  digitalWrite(TRIG5_RXI, HIGH); // turn on weak pullup
+  //  pinMode(TRIG4_TXO, INPUT);
+  //  digitalWrite(TRIG4_TXO, HIGH); // turn on weak pullup
   pinMode(ROT_A, INPUT);
   digitalWrite(ROT_A, HIGH); // turn on weak pullup
   pinMode(ROT_SW, INPUT);
   // The rotary switch is common anode with external pulldown, do not turn on pullup
-  pinMode(MP3_DREQ, INPUT);
+  //  pinMode(MP3_DREQ, INPUT);
   pinMode(ROT_LEDB, OUTPUT);
   pinMode(ROT_LEDG, OUTPUT);
-  pinMode(MP3_DCS, OUTPUT);
-  pinMode(MP3_RST, OUTPUT);
+  //  pinMode(MP3_DCS, OUTPUT);
+  //  pinMode(MP3_RST, OUTPUT);
   pinMode(ROT_LEDR, OUTPUT);
-  pinMode(SD_CS, OUTPUT);
-  pinMode(MOSI, OUTPUT);
-  pinMode(MISO, INPUT);
-  pinMode(SCK, OUTPUT);
+  //  pinMode(SD_CS, OUTPUT);
+  //  pinMode(MOSI, OUTPUT);
+  //  pinMode(MISO, INPUT);
+  //  pinMode(SCK, OUTPUT);
 
-  digitalWrite(SHDN_GPIO1, LOW); // Shut down Amplifier chip
+  //digitalWrite(SHDN_GPIO1, LOW); // Shut down Amplifier chip
   
-  digitalWrite(MP3_RST, LOW); // Shut down MP3 chip
+  //digitalWrite(MP3_RST, LOW); // Shut down MP3 chip
   
   setLED(OFF);
 
@@ -296,12 +336,12 @@ void loop()
 }
 
 
-void setLED(unsigned char pattern)
+void setLED(unsigned char color)
 // Set RGB LED to one of eight colors (see #defines above)
 {
-  digitalWrite(ROT_LEDR,pattern & B001);
-  digitalWrite(ROT_LEDG,pattern & B010);
-  digitalWrite(ROT_LEDB,pattern & B100);  
+  digitalWrite(ROT_LEDR,color & B001);
+  digitalWrite(ROT_LEDG,color & B010);
+  digitalWrite(ROT_LEDB,color & B100);  
 }
 
 
