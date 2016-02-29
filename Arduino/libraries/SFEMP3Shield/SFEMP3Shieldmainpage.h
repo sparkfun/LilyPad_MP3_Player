@@ -1,5 +1,5 @@
 /**
-\file SFEMP3mainpage.h
+\file SFEMP3Shieldmainpage.h
 
 \brief Main Page of MarkDown Documentation
 \remarks comments are implemented with Doxygen Markdown format
@@ -14,7 +14,7 @@
 \section Intro Introduction
 The Arduino SFEMP3Shield Library is a driver for VSLI's VS10xx, implemented as a Slave co-processor to audio decode streams of Ogg Vorbis/MP3/AAC/WMA/FLAC/WAVMIDI formats, across the SPI bus of the Arduino, along with mixing input signals. Principally this library is developed for the VS1053, where it may be compatible with other VS10xx's
 
-Initial development was implemented on an Arduino 328 UNO/Duemilanove with a SparkFun MP3 Player Shield. Where additional support has been provided for Seeduino MP3 Player Shield. \ref Hardware and documentation is provided as to how to implement this and an Arduino Mega. Where this driver is modular in concept to allow ready porting to other Arduino or Wiring platforms.
+Initial development was implemented on an Arduino 328 UNO/Duemilanove with a SparkFun MP3 Player Shield. Where additional support has been provided for Arduino base systems and Shields. \ref Hardware and documentation is provided as to how to implement these. Where this driver is modular in concept to allow ready porting to other Arduino or Wiring platforms.
 
 \section  Contributors Contributors
 \author  Nathan Seidle, www.sparkfun.com
@@ -38,7 +38,7 @@ Initial development was implemented on an Arduino 328 UNO/Duemilanove with a Spa
   - SdCard FAT formatted with valid <A HREF = "http://dlnmh9ip6v2uc.cloudfront.net/datasheets/Dev/Arduino/Shields/MP3_Player_Files.zip"> Audio files</A> and filenames
   - See \ref Hardware for alternative solutions.
 
-\note This library was originally developed on IDE 0.2x and later ported to 1.x. Compatibility was lost with use of the Serial.print(F("...")) and can be restored by replacing it with SdFat's PgmPrint function
+\note This library was originally developed on IDE 0.2x, later ported to 1.x and best support on IDE 1.5.0+ going forward. Compatibility was lost with use of the Serial.print(F("...")) and can be restored by replacing it with SdFat's PgmPrint function
 
 \section  Installation Installation
  To install 1, 2, 3 !
@@ -56,11 +56,18 @@ An example is provided in the SFEMP3Shield/examples folder.  Which is developed 
 
 As mentioned the initial and principal support of this library is with Arduino 328 UNO/Duemilanove with a SparkFun MP3 Player Shield. Although various other boards and shields may be implemented by customing the \ref SFEMP3ShieldConfig.h file.
 
+\subsection ArduinoBareTouch Arduino Bare Touch
+Support for Bare Conductive's Touch Board is provided and documented in \ref SFEMP3ShieldConfig.h.
+
+\note Reference \ref Arduino_Leonardo's note about example files.
+
 \subsection ArduinoMega Arduino Mega Board
 Support for Arduino and Seeeduino Mega's are documented in \ref SFEMP3ShieldConfig.h, which simply REQUIRES additional jumpers. As the SPI are not on the same pins as the UNO/Duemilanove.
 
 \subsection Arduino_Leonardo Arduino Leonardo Board
 Support for Arduino Leonardo's are afflicted by having the SPI and INT0 pins not routed to the same pins as the UNO/Duemilanove . This is similar to the Arduino Mega. Which simply REQUIRES additional jumpers, as documented in \ref SFEMP3ShieldConfig.h to correct the SPI. The swapping of INT0/INT1 is automatically corrected based on the Leonardo's processor type of __AVR_ATmega32U4__ being detected.
+
+\note While the Leonardo has the same amount of physical program space as the UNO, it actually has less space available for use. As it uses approximately 4K, for core library USB features. Where there is adaquate space available for typical applications, the provided example files MP3Shield_Library_Demo.ino and FilePlayer.ino will compile a reduced set of examples based on the processor type of __AVR_ATmega32U4__ being detected. This is only for the demonstration, and other sketchs may call any of these functions, given its environment.
 
 \subsection Arduino_Pro Arduino Pro 5V vs 3V
 SFE Arduino Pro's while similar to UNO/Duemilanove's pin outs, they are available in either 5V or 3.3V. Where the SFE MP3 Player Shield requires 5V and locally generating the needed 3.3V and 1.8V for the VS10xx chip. Noting that 3.3V Pro's do not supply 5V, this causes a problem. It is possible to modify the shield as to use base Arduino supplied 3V's.
@@ -77,7 +84,7 @@ Support for Gravitech MP3-4NANO shield please see \ref GRAVITECH
 \subsection limitation Limitations.
 
 - <b>The SPI Bus:</b>
-The configuration of the VS10xx chip as a Slave on the SPI bus, along with the SdCard on that same bus master hosted by the Arduino. Understanding that every byte streamed to the VS10xx needs also to be read from the SdCard over the same shared SPI bus, results in the SPI bus being less than half as efficient. Along with overhead. This may impact the performance of high bit-rate audio files being streamed. Additionally the Play Speed Multiplier feature can be exhausted quickly.
+The configuration of the VS10xx chip as a Slave on the SPI bus, along with the SdCard on that same bus master hosted by the Arduino. See \ref Performance
 
 - <b>Non-Blocking:</b>
 The controlling sketch needs to enquire via SFEMP3Shield::isPlaying as to determine if the current audio stream is finished or still playing. This is actually good and a result of the library being non-blocking, allowing the calling sketch to simply initiate the play of a desired audio stream from SdCard by simply calling playTrack or playMP3, of the desired file, and move on with other RealTime issues.
@@ -92,6 +99,25 @@ Most commericially available shields at this time do not support either Line Lev
 As most commericially available shields do not support audio input this feature has not been implemented.
 \todo
 Support Audio Recording.
+
+\section Performance Performance
+
+Understanding that every byte streamed to the VS10xx needs also to be read from the SdCard over the same shared SPI bus, resulting in the SPI bus being less than half as efficient. Along with overhead. Depending upon the Bitrate of the file being streamed to the VSdsp, there is only so much Real Time available. This may impact the performance of high bit-rate audio files being streamed. Additionally the Play Speed Multiplier feature can be exhausted quickly. Where on a typical UNO there is plenty of real-time to transfer good quality files, with CPU to spare for other tasks, assuming they do not consume too much time either.
+
+The available CPU can be increased by either or both increasing the speed of the SPI and or the Arduino F_CPU. Where the Speed of the SPI is individually maintained by both this driver and SdFatLib. As not to or be interfered with each other and or other libraries using the same SPI bus. The SdCard can be increased from SPI_HALF_SPEED to SPI_FULL_SPEED argument in the SD.begin. Where this library will set the Read and Write speeds to the VSdsp correspondingly, based on F_CPU of the Arduino.
+
+The actual consumed CPU utilization can be measured by defining the \ref PERF_MON_PIN to a valid pin, which generates a low signal on configured pin while servicing the VSdsp. This is inclusive of the SdCard reads.
+
+The below table show's typical average CPU utilizations of the same MP3 file that has been resampled to various bit rates and using different configurations. Where a significant difference is observed in performance.
+
+| BitRate | SdCard | Refilling | IDLE |
+| :-----: | :----: | :-------: | :--: |
+|    128K |   Half |       12% |  88% | 
+|    128K |   Full |       10% |  90% | 
+|     96K |   Full |        7% |  93% | 
+|     56K |   Full |        4% |  96% | 
+
+\note Only F_CPU of 8MgHz and 16Hz are suppored. Others will default to SPI_CLOCK_DIV2, assuming 4MgHz.
 
 \section Plug_Ins Plug Ins and Patches
 
