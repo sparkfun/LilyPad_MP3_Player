@@ -1,9 +1,9 @@
 SparkFun LilyPad MP3
 ========================================
 
-![SparkFun Part Name](URL for picture of part)
+![SparkFun LilyPad MP3](https://cdn.sparkfun.com//assets/parts/6/2/9/8/11013-01a.jpg)
 
-[*SparkFun Part Name (SKU)*](URL for product on Sparkfun.com)
+[*SparkFun Part Name (DEV-11013)*](https://www.sparkfun.com/products/11013)
 
 The LilyPad MP3 Player is an amazing little board that contains everything you need to play almost any audio file you wish. You can use it to create MP3-playing hoodies, talking teddy bears, or anything else your imagination can come up with!
 
