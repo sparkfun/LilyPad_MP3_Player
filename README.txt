@@ -1,6 +1,13 @@
+SparkFun LilyPad MP3
+========================================
+
+![SparkFun Part Name](URL for picture of part)
+
+[*SparkFun Part Name (SKU)*](URL for product on Sparkfun.com)
+
 The LilyPad MP3 Player is an amazing little board that contains everything you need to play almost any audio file you wish. You can use it to create MP3-playing hoodies, talking teddy bears, or anything else your imagination can come up with!
 
-Installation:
+### Installation:
 
 You should install the latest version of the Arduino IDE, available at http://www.arduino.cc.
 
@@ -34,3 +41,23 @@ To load a sketch onto the LilyPad MP3 Player:
 6. Click on the Upload (right arrow) button at the top of the window. The code should compile then upload to the LilyPad MP3 Player. If you have errors, double-check that you installed the required libraries to the correct place, and restarted the Arduino IDE.
 
 See the tutorials at www.sparkfun.com for more information on using and hacking the LilyPad MP3 Player.
+
+Documentation
+--------------
+* **[Installing an Arduino Library Guide](https://learn.sparkfun.com/tutorials/installing-an-arduino-library)** - Basic information on how to install an Arduino library.
+* **[Hookup Guide](https://learn.sparkfun.com/tutorials/getting-started-with-the-lilypad-mp3-player)** - Basic hookup guide.
+
+License Information
+-------------------
+
+This product is _**open source**_! 
+
+Please review the LICENSE.md file for license information. 
+
+If you have any questions or concerns on licensing, please contact techsupport@sparkfun.com.
+
+Distributed as-is; no warranty is given.
+
+- Your friends at SparkFun.
+
+_<COLLABORATION CREDIT>_
