@@ -35,7 +35,7 @@ Initial development was implemented on an Arduino 328 UNO/Duemilanove with a Spa
   - 5V Arduino 328 UNO/Duemilanove or better.
   - Shield or break out with appropiate pins wired up.
   - Shield or break out for SdCard
-  - SdCard FAT formatted with valid <A HREF = "http://dlnmh9ip6v2uc.cloudfront.net/datasheets/Dev/Arduino/Shields/MP3_Player_Files.zip"> Audio files</A> and filenames
+  - SdCard FAT formatted with valid <A HREF = "http://cdn.sparkfun.com/datasheets/Dev/Arduino/Shields/MP3_Player_Files.zip"> Audio files</A> and filenames
   - See \ref Hardware for alternative solutions.
 
 \note This library was originally developed on IDE 0.2x, later ported to 1.x and best support on IDE 1.5.0+ going forward. Compatibility was lost with use of the Serial.print(F("...")) and can be restored by replacing it with SdFat's PgmPrint function
@@ -200,7 +200,7 @@ void setup() {
 - Why do I only \b hear 1 second of music, or less?
   - This symptom is typical of the interrupt not triggering the SFEMP3Shield::refill(). I bet repeatidly sendnig a track number will advance the play about one second at a time, then stop.
   - What board is it? Check Hardware \ref limitation about Interrupts.
-  - Are you trying the SFE provided <a href="&quot;http://dlnmh9ip6v2uc.cloudfront.net/datasheets/Dev/Arduino/Shields/MP3_Player_Files.zip">test files</a> ? Or some homemade mp3 files? The SFE test files are nice as they are Immediately LOUD.
+  - Are you trying the SFE provided <a href="&quot;http://cdn.sparkfun.com/datasheets/Dev/Arduino/Shields/MP3_Player_Files.zip">test files</a> ? Or some homemade mp3 files? The SFE test files are nice as they are Immediately LOUD.
   - Interrupt problems may cause mp3 files that have a quiet lead in (or ramp up of volume) to be falsely diagnosed as not playing at all. Where the first 1 second may not be loud enough to be heard.
 
 - <tt>Free RAM = 1090 Should be a base line of 1094</tt>
@@ -273,7 +273,7 @@ Please read through this document and refering linked resources.
 
 <A HREF = "http://www.sparkfun.com/tutorials/295"> MP3 Player Shield Landing Page / Tutorials</A>.
 
-<A HREF = "http://dlnmh9ip6v2uc.cloudfront.net/datasheets/Dev/Arduino/Shields/MP3%20Shield-v13.pdf"> SFE's Schematic</A>.
+<A HREF = "http://cdn.sparkfun.com/datasheets/Dev/Arduino/Shields/MP3 Shield-v13.pdf"> SFE's Schematic</A>.
 
 <A HREF = "http://www.adafruit.com/"> Adafruit Industries:</A>.
 
